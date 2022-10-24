@@ -1,8 +1,6 @@
-import './App.css';
 import React, { Component } from 'react';
-import RenderHtml from './components/RenderHtml';
-import Demo3 from './components/demo';
-class App extends Component {
+
+class Demo3 extends Component {
   constructor() {
     super();
     this.state = {
@@ -143,5 +141,4 @@ class App extends Component {
     );
   }
 }
-
-export default App;
+export default Demo3;
