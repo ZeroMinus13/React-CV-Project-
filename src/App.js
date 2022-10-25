@@ -1,12 +1,14 @@
 import './App.css';
 import React, { Component } from 'react';
 import RenderHtml from './components/RenderHtml';
-import Demo3 from './components/demo';
+
 class App extends Component {
   constructor() {
     super();
     this.state = {
       htmlrender: false,
+      isActive: true,
+      toggle: false,
       name: '',
       email: '',
       phone: '',
@@ -33,22 +35,9 @@ class App extends Component {
   }
   submitForm = (e) => {
     e.preventDefault();
-    let state = this.state;
-    let data = state.storedData;
     this.setState({
       htmlrender: true,
-      storedData: {
-        name: data.name.concat(state.name),
-        email: data.email.concat(state.email),
-        phone: data.phone.concat(state.phone),
-        school: data.school.concat(state.school),
-        elevel: data.elevel.concat(state.elevel),
-        studydate: data.studydate.concat(state.studydate),
-        company: data.company.concat(state.company),
-        postitle: data.postitle.concat(state.postitle),
-        maintask: data.maintask.concat(state.maintask),
-        datefromto: data.datefromto.concat(state.datefromto),
-      },
+      isActive: false,
     });
   };
   handleChange = (e) => {
@@ -57,7 +46,12 @@ class App extends Component {
       [first]: e.target.value,
     });
   };
-
+  edittoggle = (e) => {
+    this.setState({
+      isActive: !this.state.isActive,
+      htmlrender: false,
+    });
+  };
   render() {
     const {
       name,
@@ -70,12 +64,13 @@ class App extends Component {
       postitle,
       maintask,
       datefromto,
+      isActive,
     } = this.state;
     return (
       <div className="App">
         <h1>CV Application</h1>
-        <div className="form">
-          <form>
+        <div className="formSection">
+          <form className={isActive ? 'form1' : 'displaynone'}>
             <div className="Section1">
               <h2>General information</h2>
               <label htmlFor="name">Name</label>
@@ -102,7 +97,12 @@ class App extends Component {
               <input id="elevel" onChange={this.handleChange} value={elevel}></input>
 
               <label htmlFor="studydate">Date of study</label>
-              <input id="studydate" onChange={this.handleChange} value={studydate}></input>
+              <input
+                id="studydate"
+                onChange={this.handleChange}
+                value={studydate}
+                type="date"
+              ></input>
             </div>
             <div className="Section3">
               <h2>Practical experience</h2>
@@ -118,26 +118,35 @@ class App extends Component {
               <label htmlFor="datefromto">
                 Date from and until when you worked for that company
               </label>
-              <input id="datefromto" onChange={this.handleChange} value={datefromto}></input>
+              <input
+                id="datefromto"
+                onChange={this.handleChange}
+                value={datefromto}
+                type="date"
+              ></input>
             </div>
             <button type="submit" onClick={this.submitForm}>
               Submit
             </button>
           </form>
+
           {this.state.htmlrender && (
             <RenderHtml
-              name={this.state.storedData.name}
-              email={this.state.storedData.email}
-              phone={this.state.storedData.phone}
-              school={this.state.storedData.school}
-              elevel={this.state.storedData.elevel}
-              studydate={this.state.storedData.studydate}
-              company={this.state.storedData.company}
-              postitle={this.state.storedData.postitle}
-              maintask={this.state.storedData.maintask}
-              datefromto={this.state.storedData.datefromto}
+              name={name}
+              email={email}
+              phone={phone}
+              school={school}
+              elevel={elevel}
+              studydate={studydate}
+              company={company}
+              postitle={postitle}
+              maintask={maintask}
+              datefromto={datefromto}
             />
           )}
+          <button className="edit" onClick={this.edittoggle}>
+            Edit
+          </button>
         </div>
       </div>
     );
